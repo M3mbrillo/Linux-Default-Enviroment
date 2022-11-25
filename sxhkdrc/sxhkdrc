@@ -1,0 +1,33 @@
+# make sxhkd reload its configuration files
+super + alt + Escape
+	pkill -usr1 -x sxhkd; bspc wm -r;notify-send -t 500 "Reload sxhkd & bspwm" --icon reload; polybar-msg cmd restart;
+ 
+# quit or restart bspwm
+#alt + shift + {q,r}
+#	bspc {quit,wm -r}
+ 
+# create a new terminal window
+super + Return
+	kitty
+ 
+# close or kill a window
+super + {_,shift + }w
+	bspc node -{k,c}
+
+# change the window state
+super + alt + {t,l,f}
+	bspc node -t {tiled,floating,fullscreen}
+ 
+# expand a window by moving one of its side outward
+#super + alt + {h,j,k,l}
+#	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+ 
+# focus or send a window to the given desktop
+super + alt + {1-9}
+	id=$(bspc query -N -n); bspc node -d ^{1-9}; bspc node -f ${id}
+
+super + ctrl + {Left, Right}
+	bspc desktop -f {prev, next}; notify-send -t 500 $(bspc query -D -d focused --names)
+
+alt + space + {w, r}
+	rofi -show {window, run}
